@@ -1,0 +1,36 @@
+{% extends "equipment/base.html" %}
+{% block title %}Equipment Hours Report{% endblock %}
+{% block content %}
+<main class="report-shell">
+  <div class="report-heading">
+    <div><p class="eyebrow">STAFF REPORT</p><h1>Equipment Hours Report</h1></div>
+    <a class="secondary-button" href="{{ export_url }}">Export Excel</a>
+  </div>
+  <form method="get" class="filters">
+    {% for field in form %}
+      <div class="field">{{ field.label_tag }}{{ field }}{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
+    {% endfor %}
+    {% if form.non_field_errors %}<p class="field-error">{{ form.non_field_errors }}</p>{% endif %}
+    <div class="filter-actions"><button class="primary-button" type="submit">Search</button><a class="secondary-button" href="{% url 'equipment:report' %}">Reset</a></div>
+  </form>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Date</th><th>Operator</th><th>Equipment</th><th>Total Hours</th><th>Created At</th></tr></thead>
+      <tbody>
+      {% for record in page_obj %}
+        <tr><td>{{ record.id }}</td><td>{{ record.date|date:"d-M-Y" }}</td><td>{{ record.operator.operator_id }}</td><td>{{ record.equipment.equipment_id }}</td><td>{{ record.total_hours }}</td><td>{{ record.created_at|date:"d-M-Y H:i" }}</td></tr>
+      {% empty %}
+        <tr><td colspan="6" class="empty">No records found.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if page_obj.paginator.num_pages > 1 %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}<a href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}">Previous</a>{% endif %}
+      <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}<a href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">Next</a>{% endif %}
+    </div>
+  {% endif %}
+</main>
+{% endblock %}

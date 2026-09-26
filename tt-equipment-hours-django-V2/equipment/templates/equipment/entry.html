@@ -1,0 +1,39 @@
+{% extends "equipment/base.html" %}
+{% load static %}
+{% block title %}TT Equipment Hour Entry{% endblock %}
+{% block content %}
+<main class="panel entry-panel">
+  <div class="panel-heading">
+    <p class="eyebrow">SHIFT ENTRY</p>
+    <h1>Equipment Hour Entry</h1>
+  </div>
+  <form method="post" id="entry-form" novalidate data-latest-url="{% url 'equipment:latest' 0 %}">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="message error">{{ form.non_field_errors }}</div>
+    {% endif %}
+    <div class="field">
+      <label for="{{ form.operator.id_for_label }}">{{ form.operator.label }}</label>
+      {{ form.operator }}
+      {% for error in form.operator.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="field">
+      <label for="{{ form.equipment.id_for_label }}">{{ form.equipment.label }}</label>
+      {{ form.equipment }}
+      {% for error in form.equipment.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="reading-card" id="reading-card" data-configured="{% if bounds %}true{% else %}false{% endif %}">
+      <div><span>Previous</span><strong id="previous-hours">{% if bounds %}{{ bounds.previous }}{% else %}—{% endif %}</strong></div>
+      <div><span>Maximum allowed</span><strong id="maximum-hours">{% if bounds %}{{ bounds.maximum }}{% else %}—{% endif %}</strong></div>
+    </div>
+    <div class="field">
+      <label for="{{ form.total_hours.id_for_label }}">{{ form.total_hours.label }}</label>
+      {{ form.total_hours }}
+      {% for error in form.total_hours.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+    </div>
+    <p class="client-message" id="client-message" role="status"></p>
+    <button class="primary-button" type="submit">SUBMIT</button>
+  </form>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{% static 'equipment/entry.js' %}"></script>{% endblock %}

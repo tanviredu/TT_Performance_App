@@ -1,0 +1,17 @@
+{% extends "equipment/base.html" %}
+{% block title %}Saved{% endblock %}
+{% block content %}
+<main class="panel success-panel">
+  <div class="success-mark">✓</div>
+  <p class="eyebrow">SAVED</p>
+  <h1>তথ্য সফলভাবে সংরক্ষণ করা হয়েছে।</h1>
+  <dl class="summary">
+    <div><dt>Operator ID</dt><dd>{{ record.operator.operator_id }}</dd></div>
+    <div><dt>Equipment</dt><dd>{{ record.equipment.equipment_id }}</dd></div>
+    <div><dt>Previous Hours</dt><dd>{{ record.previous_hours }}</dd></div>
+    <div><dt>Current Hours</dt><dd>{{ record.total_hours }}</dd></div>
+    <div><dt>Shift Hours</dt><dd>{{ record.shift_hours }}</dd></div>
+  </dl>
+  <a class="primary-button button-link" href="{% url 'equipment:entry' %}">নতুন তথ্য যোগ করুন</a>
+</main>
+{% endblock %}

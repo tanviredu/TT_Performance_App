@@ -1,0 +1,14 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block object-tools-items %}
+  <li>
+    <a href="export-excel/{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" class="export-excel-btn" style="background: #15803d; color: #ffffff !important; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 4px; text-decoration: none; border: 1px solid #166534;" title="Export currently filtered or all records to Excel">
+      <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
+        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+      </svg>
+      Export to Excel
+    </a>
+  </li>
+  {{ block.super }}
+{% endblock %}

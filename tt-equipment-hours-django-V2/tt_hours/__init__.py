@@ -1,0 +1,1 @@
+"""TT Equipment Hours Django project."""
